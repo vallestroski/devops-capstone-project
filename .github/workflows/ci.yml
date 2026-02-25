@@ -25,7 +25,8 @@ jobs:
           --health-retries=5
 
     env:
-      DATABASE_URI: postgresql://postgres:postgres@localhost:5432/testdb
+      DATABASE_URI: postgresql://postgres:pgs3cr3t@localhost:5432/testdb
+
     steps:
     - name: Checkout code
       uses: actions/checkout@v3

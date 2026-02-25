@@ -2,13 +2,30 @@ name: CI
 
 on:
   push:
-    branches: [ main, dev-* ]
+    branches: [ main, add-ci-build]
   pull_request:
     branches: [ main ]
 
 jobs:
   build:
     runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:13
+        env:
+          POSTGRES_DB: testdb
+          POSTGRES_PASSWORD: pgs3cr3t
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd="pg_isready -U postgres"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
+
+    env:
+      DATABASE_URI: postgresql://postgres:postgres@localhost:5432/accounts
 
     steps:
     - name: Checkout code
@@ -25,8 +42,5 @@ jobs:
         pip install -r requirements.txt
 
     - name: Run tests
-      env:
-        DATABASE_URI: "sqlite:///:memory:"
       run: |
         nosetests -v
-

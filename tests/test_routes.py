@@ -204,3 +204,4 @@ class TestAccountService(TestCase):
             resp.status_code,
             status.HTTP_405_METHOD_NOT_ALLOWED,
         )
+        
